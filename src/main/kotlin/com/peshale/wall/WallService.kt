@@ -2,7 +2,7 @@ package com.peshale.wall
 
 import com.peshale.domain.Post
 
-class Wall(var posts: Array<Post?>) {
+class WallService(var posts: Array<Post?>) {
 
 
 }

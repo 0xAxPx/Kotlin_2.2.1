@@ -1,11 +1,11 @@
 package com.peshale
 
 import com.peshale.domain.Post
-import com.peshale.wall.Wall
+import com.peshale.wall.WallService
 import kotlin.random.Random
 
 fun main() {
-    println("Number of posts on the wall is ${Wall(Application.run(10)).posts.size}")
+    println("Number of posts on the wall is ${WallService(Application.run(10)).posts.size}")
 }
 
 
