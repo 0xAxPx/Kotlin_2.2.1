@@ -5,7 +5,11 @@ import com.peshale.wall.WallService
 import kotlin.random.Random
 
 fun main() {
-    println("Number of posts on the wall is ${WallService(Application.run(10)).posts.size}")
+    val allPosts = WallService(Application.run(10)).posts
+    println("Number of posts on the wall is ${allPosts.size}")
+    for (i in allPosts.indices) {
+        println(allPosts.get(i).toString())
+    }
 }
 
 
@@ -13,7 +17,7 @@ class Application{
 
     companion object {
         fun run(sizeOfArray: Int): Array<Post?> {
-            var posts = arrayOfNulls<Post>(sizeOfArray)
+            val posts = arrayOfNulls<Post>(sizeOfArray)
             println("Post application is running....")
             for (i in posts.indices) {
                 val id = Random.nextInt(i,  100_000)

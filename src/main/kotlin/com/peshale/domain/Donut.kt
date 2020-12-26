@@ -1,10 +1,10 @@
 package com.peshale.domain
 
 class Donut(
-    isDonut: Boolean,
-    paidDuration: Long,
-    placeholder: String,
-    canPublishFreeCopy: Boolean,
-    editMode: String
+    val isDonut: Boolean,
+    val paidDuration: Long,
+    val placeholder: String,
+    val canPublishFreeCopy: Boolean,
+    val editMode: String
 ) {
 }

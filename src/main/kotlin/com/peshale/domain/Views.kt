@@ -1,6 +1,6 @@
 package com.peshale.domain
 
 class Views(
-    count: Int
+    var count: Int
 ) {
 }
