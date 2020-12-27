@@ -68,9 +68,4 @@ data class Post(
             )
         }
     }
-
-//    override fun toString(): String {
-//        return "Post(id=$id, ownerId=$ownerId, fromId=$fromId, createdBy=$createdBy, date=$date, text='$text', replyOwnerId=$replyOwnerId, replyPostId=$replyPostId, friendsOnly=$friendsOnly, comments=$comments, copyright=$copyright, likes=$likes, reposts=$reposts, views=$views, postType='$postType', signerId=$signerId, canPin=$canPin, canDelete=$canDelete, canEdit=$canEdit, isPinned=$isPinned, markedAsAds=$markedAsAds, isFavorite=$isFavorite, donut=$donut, postponedId=$postponedId)"
-//    }
-
 }

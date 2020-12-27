@@ -3,28 +3,40 @@ package com.peshale.wall
 import com.peshale.domain.Post
 import kotlin.random.Random
 
-class WallService(val posts: ArrayList<Post>) {
+class WallService() {
 
     companion object {
         var ids = ArrayList<Int>()
-//        var postsStore = emptyArray<Post>()
+        var postsStore = ArrayList<Post>()
+
+        fun getNumberOfPosts(): Int {
+            return postsStore.size
+        }
+
+        fun getPost(id: Int): Post {
+            var index = 0
+            for (i in postsStore.indices) if (postsStore[i].id == id) {
+                index = i
+            }
+            return postsStore[index]
+        }
     }
 
     fun add(post: Post): Post {
         val newPost = setUniquePostId(post)
-        this.posts.add(newPost)
+        postsStore.add(newPost)
         return newPost
     }
 
     fun update(post: Post): Boolean {
         var update = false
         println("Before update: $post")
-        for (i in this.posts.indices) {
+        for (i in postsStore.indices) {
             val currentId = post.id
             val currentDateCreated = post.date
-            update = this.posts[i].id == post.id
+            update = postsStore[i].id == post.id
             val newPost = post.copy(id = currentId, date = currentDateCreated)
-            this.posts[i] = newPost
+            postsStore[i] = newPost
             println("After update: $newPost")
         }
         return update
