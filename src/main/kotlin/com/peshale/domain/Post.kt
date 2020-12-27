@@ -6,7 +6,7 @@ import kotlin.random.Random
 com.peshale.domain.Post objects https://vk.com/dev/objects/post
  */
 
-data class Post(
+data class Post (
     //we set 0 for each post, WallService is responsible to assign unique id for each new post
     var id: Int = 0,
     var ownerId: Int,
@@ -39,24 +39,24 @@ data class Post(
         /*
     fun for testing purpose
      */
-        fun createPostWithRandomData(id: Int): Post {
+        fun createPostWithRandomData(): Post {
             return Post(
-                id,
-                Random.nextInt(),
-                Random.nextInt(),
-                Random.nextInt(),
+                Random.nextInt(0, Int.MAX_VALUE),
+                Random.nextInt(0, Int.MAX_VALUE),
+                Random.nextInt(0, Int.MAX_VALUE),
+                Random.nextInt(0, Int.MAX_VALUE),
                 System.currentTimeMillis(),
                 "Post",
-                Random.nextInt(),
-                Random.nextInt(),
+                Random.nextInt(0, Int.MAX_VALUE),
+                Random.nextInt(0, Int.MAX_VALUE),
                 false,
                 Comments(1, true, true, true, true),
-                Copyright(Random.nextInt(), true, "VK", "default"),
-                Likes(Random.nextInt(), true, true, true),
-                Reposts(Random.nextInt(), false),
+                Copyright(Random.nextInt(0, Int.MAX_VALUE), true, "VK", "default"),
+                Likes(Random.nextInt(0, Int.MAX_VALUE), true, true, true),
+                Reposts(Random.nextInt(0, Int.MAX_VALUE), false),
                 Views(Random.nextInt()),
                 "Test",
-                Random.nextInt(),
+                Random.nextInt(0, Int.MAX_VALUE),
                 true,
                 true,
                 true,
@@ -64,7 +64,7 @@ data class Post(
                 false,
                 false,
                 Donut(false, 0, "", false, "default"),
-                Random.nextInt(),
+                Random.nextInt(0, Int.MAX_VALUE)
             )
         }
     }

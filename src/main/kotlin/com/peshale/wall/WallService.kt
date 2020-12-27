@@ -25,12 +25,12 @@ class WallService() {
     fun add(post: Post): Post {
         val newPost = setUniquePostId(post)
         postsStore.add(newPost)
+        ids.add(newPost.id)
         return newPost
     }
 
     fun update(post: Post): Boolean {
         var update = false
-        println("Before update: $post")
         for (i in postsStore.indices) {
             val currentId = post.id
             val currentDateCreated = post.date
@@ -38,7 +38,6 @@ class WallService() {
                 update = true
                 val newPost = post.copy(id = currentId, date = currentDateCreated)
                 postsStore[i] = newPost
-                println("After update: $newPost")
             } else {
                 update = false
             }

@@ -17,30 +17,31 @@ internal class WallServiceTest {
     @Test
     fun `test that new post is added and number of posts == 1`() {
         val wallService = WallService()
-        wallService.add(Post.createPostWithRandomData(1))
+        wallService.add(Post.createPostWithRandomData())
         assertTrue(1 == WallService.getNumberOfPosts())
     }
 
     @Test
-    fun `test that after adding of two posts number of posts == 2`() {
+    fun `test that we have unique id in the list of posts`() {
         val wallService = WallService()
-        val post1 = Post.createPostWithRandomData(1)
-        val post2 = Post.createPostWithRandomData(1)
-        val post3 = Post.createPostWithRandomData(3)
-        wallService.add(post1)
-        wallService.add(post2)
-        wallService.add(post3)
-        assertTrue(3 == WallService.getNumberOfPosts())
-        assertTrue(1 == WallService.getPost(1).id)
-        assertTrue(1 == WallService.getPost(2).id)
+        val setIds = linkedSetOf<Int>()
+        for (i in 1 until 100_000) {
+            val post = Post.createPostWithRandomData()
+            wallService.add(post)
+            setIds.add(post.id)
+        }
+
+        //to check uniqueness of id
+        assertTrue(WallService.getNumberOfPosts() == setIds.size)
     }
 
     @Test
     fun `test update existing post and id and date fields should be changed`() {
         val wallService = WallService()
-        val post = Post.createPostWithRandomData(22)
+        val post = Post.createPostWithRandomData()
         val currentId = post.id
         val currentDate = post.date
+
         //add post on wall
         wallService.add(post)
 
@@ -49,15 +50,15 @@ internal class WallServiceTest {
         assertTrue(wallService.update(post))
 
         println(WallService.getNumberOfPosts() == 1)
-        assertTrue(currentId == WallService.getPost(22).id)
-        assertTrue(currentDate == WallService.getPost(22).date)
-        assertTrue(111333444 == WallService.getPost(22).ownerId)
+        assertTrue(currentId == WallService.getPost(currentId).id)
+        assertTrue(currentDate == WallService.getPost(currentId).date)
+        assertTrue(111333444 == WallService.getPost(currentId).ownerId)
     }
 
     @Test
     fun `test update non existing post, update() should return false`() {
         val wallService = WallService()
-        val post = Post.createPostWithRandomData(Random.nextInt())
+        val post = Post.createPostWithRandomData()
         val postId = post.id
         println("Post with ID $postId to be saved")
         //add post on wall
@@ -65,7 +66,7 @@ internal class WallServiceTest {
 
         assertTrue(1 == WallService.getNumberOfPosts())
 
-        val notExistingPost = Post.createPostWithRandomData(333)
+        val notExistingPost = Post.createPostWithRandomData()
 
         //update not existing post
         wallService.update(notExistingPost)
