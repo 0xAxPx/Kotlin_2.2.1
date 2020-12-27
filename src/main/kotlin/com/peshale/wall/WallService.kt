@@ -34,10 +34,14 @@ class WallService() {
         for (i in postsStore.indices) {
             val currentId = post.id
             val currentDateCreated = post.date
-            update = postsStore[i].id == post.id
-            val newPost = post.copy(id = currentId, date = currentDateCreated)
-            postsStore[i] = newPost
-            println("After update: $newPost")
+            if (postsStore[i].id == post.id) {
+                update = true
+                val newPost = post.copy(id = currentId, date = currentDateCreated)
+                postsStore[i] = newPost
+                println("After update: $newPost")
+            } else {
+                update = false
+            }
         }
         return update
     }
