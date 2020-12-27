@@ -1,5 +1,6 @@
 package com.peshale.domain
 
+import com.peshale.utility.Utilities
 import kotlin.random.Random
 
 /*
@@ -41,22 +42,22 @@ data class Post (
      */
         fun createPostWithRandomData(): Post {
             return Post(
-                Random.nextInt(0, Int.MAX_VALUE),
-                Random.nextInt(0, Int.MAX_VALUE),
-                Random.nextInt(0, Int.MAX_VALUE),
-                Random.nextInt(0, Int.MAX_VALUE),
+                Utilities.randomPosInt(),
+                Utilities.randomPosInt(),
+                Utilities.randomPosInt(),
+                Utilities.randomPosInt(),
                 System.currentTimeMillis(),
                 "Post",
-                Random.nextInt(0, Int.MAX_VALUE),
-                Random.nextInt(0, Int.MAX_VALUE),
+                Utilities.randomPosInt(),
+                Utilities.randomPosInt(),
                 false,
                 Comments(1, true, true, true, true),
-                Copyright(Random.nextInt(0, Int.MAX_VALUE), true, "VK", "default"),
-                Likes(Random.nextInt(0, Int.MAX_VALUE), true, true, true),
-                Reposts(Random.nextInt(0, Int.MAX_VALUE), false),
+                Copyright(Utilities.randomPosInt(), true, "VK", "default"),
+                Likes(Utilities.randomPosInt(), true, true, true),
+                Reposts(Utilities.randomPosInt(), false),
                 Views(Random.nextInt()),
                 "Test",
-                Random.nextInt(0, Int.MAX_VALUE),
+                Utilities.randomPosInt(),
                 true,
                 true,
                 true,
@@ -64,7 +65,7 @@ data class Post (
                 false,
                 false,
                 Donut(false, 0, "", false, "default"),
-                Random.nextInt(0, Int.MAX_VALUE)
+                Utilities.randomPosInt()
             )
         }
     }
