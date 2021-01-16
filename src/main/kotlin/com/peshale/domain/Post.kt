@@ -10,7 +10,7 @@ com.peshale.domain.Post objects https://vk.com/dev/objects/post
 
 data class Post (
     //we set 0 for each post, WallService is responsible to assign unique id for each new post
-    var id: Int = 0,
+    var postId: Int = 0,
     var ownerId: Int,
     val fromId: Int,
     val createdBy:  Int,
@@ -19,7 +19,7 @@ data class Post (
     val replyOwnerId: Int,
     val replyPostId: Int,
     val friendsOnly: Boolean,
-    val comments: Comments?,
+    val comment: Comment?,
     val copyright: Copyright?,
     val likes: Likes,
     val reposts: Reposts?,
@@ -40,9 +40,9 @@ data class Post (
         /*
     fun for testing purpose
      */
-        fun createPostWithRandomData(attachment: Attachment): Post {
+        fun createPostWithRandomData(attachment: Attachment, comment: Comment?): Post {
             return Post(
-                id = Utilities.randomPosInt(),
+                postId = Utilities.randomPosInt(),
                 ownerId = Utilities.randomPosInt(),
                 fromId = Utilities.randomPosInt(),
                 createdBy = Utilities.randomPosInt(),
@@ -51,7 +51,7 @@ data class Post (
                 replyOwnerId = Utilities.randomPosInt(),
                 replyPostId = Utilities.randomPosInt(),
                 friendsOnly = false,
-                comments = Comments(1, true, true, true, true),
+                comment = comment,
                 copyright = Copyright(Utilities.randomPosInt(), true, "VK", "default"),
                 likes = Likes(Utilities.randomPosInt(), true, true, true),
                 reposts = Reposts(Utilities.randomPosInt(), false),
