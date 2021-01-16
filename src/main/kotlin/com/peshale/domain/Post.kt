@@ -1,5 +1,6 @@
 package com.peshale.domain
 
+import com.peshale.domain.attachments.Attachment
 import com.peshale.utility.Utilities
 import kotlin.random.Random
 
@@ -18,13 +19,14 @@ data class Post (
     val replyOwnerId: Int,
     val replyPostId: Int,
     val friendsOnly: Boolean,
-    val comments: Comments,
-    val copyright: Copyright,
+    val comments: Comments?,
+    val copyright: Copyright?,
     val likes: Likes,
-    val reposts: Reposts,
-    val views: Views,
+    val reposts: Reposts?,
+    val views: Views?,
     val postType: String,
     val signerId: Int,
+    val attachments: Attachment?,
     val canPin: Boolean,
     val canDelete: Boolean,
     val canEdit: Boolean,
@@ -34,38 +36,37 @@ data class Post (
     val donut: Donut,
     val postponedId: Int) {
 
-
-
     companion object {
         /*
     fun for testing purpose
      */
-        fun createPostWithRandomData(): Post {
+        fun createPostWithRandomData(attachment: Attachment): Post {
             return Post(
-                Utilities.randomPosInt(),
-                Utilities.randomPosInt(),
-                Utilities.randomPosInt(),
-                Utilities.randomPosInt(),
-                System.currentTimeMillis(),
-                "Post",
-                Utilities.randomPosInt(),
-                Utilities.randomPosInt(),
-                false,
-                Comments(1, true, true, true, true),
-                Copyright(Utilities.randomPosInt(), true, "VK", "default"),
-                Likes(Utilities.randomPosInt(), true, true, true),
-                Reposts(Utilities.randomPosInt(), false),
-                Views(Random.nextInt()),
-                "Test",
-                Utilities.randomPosInt(),
-                true,
-                true,
-                true,
-                false,
-                false,
-                false,
-                Donut(false, 0, "", false, "default"),
-                Utilities.randomPosInt()
+                id = Utilities.randomPosInt(),
+                ownerId = Utilities.randomPosInt(),
+                fromId = Utilities.randomPosInt(),
+                createdBy = Utilities.randomPosInt(),
+                date = System.currentTimeMillis(),
+                text = "Post",
+                replyOwnerId = Utilities.randomPosInt(),
+                replyPostId = Utilities.randomPosInt(),
+                friendsOnly = false,
+                comments = Comments(1, true, true, true, true),
+                copyright = Copyright(Utilities.randomPosInt(), true, "VK", "default"),
+                likes = Likes(Utilities.randomPosInt(), true, true, true),
+                reposts = Reposts(Utilities.randomPosInt(), false),
+                views = Views(Random.nextInt()),
+                postType = "Test",
+                signerId = Utilities.randomPosInt(),
+                attachments = attachment,
+                canPin = true,
+                canDelete = true,
+                canEdit = false,
+                isPinned = false,
+                markedAsAds = false,
+                isFavorite = true,
+                donut = Donut(false, 0, "", false, "default"),
+                postponedId = Utilities.randomPosInt()
             )
         }
     }
