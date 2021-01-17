@@ -1,8 +1,7 @@
 package com.peshale
 
 import com.peshale.domain.Post
-import com.peshale.domain.attachments.DocumentAttachments
-import com.peshale.domain.attachments.VideoAttachments
+import com.peshale.domain.attachments.*
 import com.peshale.wall.WallService
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -19,7 +18,7 @@ internal class WallServiceTest {
     @Test
     fun `test that new post is added and number of posts == 1`() {
         val wallService = WallService()
-        val attachment = VideoAttachments("Video", Any())
+        val attachment = VideoAttachments("Video", Video())
         wallService.add(Post.createPostWithRandomData(attachment))
         assertTrue(1 == WallService.getNumberOfPosts())
     }
@@ -28,7 +27,7 @@ internal class WallServiceTest {
     fun `test that we have unique id in the list of posts`() {
         val wallService = WallService()
         val setIds = linkedSetOf<Int>()
-        val attachment = DocumentAttachments("Document", "War and Peace")
+        val attachment = DocumentAttachments("Document", Document())
         for (i in 1 until 100_000) {
             val post = Post.createPostWithRandomData(attachment)
             wallService.add(post)
@@ -42,7 +41,7 @@ internal class WallServiceTest {
     @Test
     fun `test update existing post and id and date fields should be changed`() {
         val wallService = WallService()
-        val attachment = VideoAttachments("Photo", "instagram")
+        val attachment = VideoAttachments("Video", Video())
         val post = Post.createPostWithRandomData(attachment)
         val currentId = post.id
         val currentDate = post.date
@@ -63,7 +62,7 @@ internal class WallServiceTest {
     @Test
     fun `test update non existing post, update() should return false`() {
         val wallService = WallService()
-        val attachment = VideoAttachments("WebLink", "wiki")
+        val attachment = WebLinkAttachments("WebLink", WebLink())
         val post = Post.createPostWithRandomData(attachment)
         val postId = post.id
         println("Post with ID $postId to be saved")

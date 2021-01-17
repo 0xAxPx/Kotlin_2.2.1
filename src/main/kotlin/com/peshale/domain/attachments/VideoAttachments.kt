@@ -1,6 +1,6 @@
 package com.peshale.domain.attachments
 
-data class VideoAttachments(override val type: String, val video: Any) : Attachment {
+data class VideoAttachments(override val type: String, val video: Video) : Attachment {
 
     //TODO
 
