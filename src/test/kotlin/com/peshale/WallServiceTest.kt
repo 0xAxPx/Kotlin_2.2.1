@@ -4,13 +4,13 @@ import com.peshale.domain.Comment
 import com.peshale.domain.Post
 import com.peshale.domain.attachments.DocumentAttachments
 import com.peshale.domain.attachments.VideoAttachments
+import com.peshale.utility.Utilities
 import com.peshale.wall.WallService
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-
 
 internal class WallServiceTest {
 
@@ -21,7 +21,7 @@ internal class WallServiceTest {
     fun `test that new post is added and number of posts == 1`() {
         val wallService = WallService()
         val attachment = VideoAttachments("Video", Any())
-        wallService.add(Post.createPostWithRandomData(attachment, null))
+        wallService.add(Post.createPostWithRandomData(Utilities.randomPosInt(),attachment, null))
         assertTrue(1 == WallService.getNumberOfPosts())
     }
 
@@ -31,7 +31,7 @@ internal class WallServiceTest {
         val setIds = linkedSetOf<Int>()
         val attachment = DocumentAttachments("Document", "War and Peace")
         for (i in 1 until 10) {
-            val post = Post.createPostWithRandomData(attachment, null)
+            val post = Post.createPostWithRandomData(Utilities.randomPosInt(), attachment, null)
             wallService.add(post)
             setIds.add(post.postId)
         }
@@ -44,7 +44,7 @@ internal class WallServiceTest {
     fun `test update existing post and id and date fields should be changed`() {
         val wallService = WallService()
         val attachment = VideoAttachments("Photo", "instagram")
-        val post = Post.createPostWithRandomData(attachment, null)
+        val post = Post.createPostWithRandomData(Utilities.randomPosInt(), attachment, null)
         val currentId = post.postId
         val currentDate = post.date
 
@@ -65,7 +65,7 @@ internal class WallServiceTest {
     fun `test update non existing post, update() should return false`() {
         val wallService = WallService()
         val attachment = VideoAttachments("WebLink", "wiki")
-        val post = Post.createPostWithRandomData(attachment, null)
+        val post = Post.createPostWithRandomData(Utilities.randomPosInt(), attachment, null)
         val postId = post.postId
         println("Post with ID $postId to be saved")
         //add post on wall
@@ -73,7 +73,7 @@ internal class WallServiceTest {
 
         assertTrue(1 == WallService.getNumberOfPosts())
 
-        val notExistingPost = Post.createPostWithRandomData(attachment, null)
+        val notExistingPost = Post.createPostWithRandomData(Utilities.randomPosInt(), attachment, null)
 
         //update not existing post
         wallService.update(notExistingPost)
@@ -86,7 +86,7 @@ internal class WallServiceTest {
     fun `test adding comment to existing post run successfully`() {
         val wallService = WallService()
         val attachment = VideoAttachments("Video", Any())
-        val post = wallService.add(Post.createPostWithRandomData(attachment, null))
+        val post = wallService.add(Post.createPostWithRandomData(Utilities.randomPosInt(), attachment, null))
         assertTrue(1 == WallService.getNumberOfPosts())
         val comment = Comment(
             commentId = 1,
@@ -103,17 +103,52 @@ internal class WallServiceTest {
         )
 
         wallService.createComment(comment)
-        assertTrue(comment == wallService.getLastComment(comment.commentId))
+        assertTrue(comment == wallService.getLastComment())
     }
 
     @Test
     fun `test adding comment to non existing post leads to throwing an exception`() {
         val wallService = WallService()
         val attachment = VideoAttachments("Video", Any())
-        val post = wallService.add(Post.createPostWithRandomData(attachment, null))
+        val post = wallService.add(Post.createPostWithRandomData(1, attachment, null))
         assertTrue(1 == WallService.getNumberOfPosts())
         val fakeId = 11111
-        val comment = Comment(
+
+        val comment1 = Comment(
+            commentId = 1,
+            postId = post.postId,
+            fromId = 2,
+            date = System.currentTimeMillis(),
+            text = "Hello!",
+            donut = null,
+            replyToUser = 2,
+            replyToComment = 22,
+            attachment = null,
+            parentStack = emptyArray(),
+            thread = "....."
+        )
+
+        wallService.createComment(comment1)
+
+        val post2 = wallService.add(Post.createPostWithRandomData(2, attachment, null))
+
+        val comment2 = Comment(
+            commentId = 1,
+            postId = post2.postId,
+            fromId = 2,
+            date = System.currentTimeMillis(),
+            text = "Hello!",
+            donut = null,
+            replyToUser = 2,
+            replyToComment = 22,
+            attachment = null,
+            parentStack = emptyArray(),
+            thread = "....."
+        )
+
+        wallService.createComment(comment2)
+
+        val comment3 = Comment(
             commentId = 1,
             postId = fakeId,
             fromId = 2,
@@ -128,7 +163,7 @@ internal class WallServiceTest {
         )
 
         val exception = Assertions.assertThrows(PostNotFoundException::class.java) {
-            wallService.createComment(comment)
+            wallService.createComment(comment3)
         }
 
         assertTrue("Post $fakeId does not exist" == exception.message)

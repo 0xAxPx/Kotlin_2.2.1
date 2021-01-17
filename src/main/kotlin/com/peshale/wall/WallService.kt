@@ -49,13 +49,15 @@ class WallService() {
     }
 
     fun createComment(comment: Comment) {
+        var count = 0
         for (p in posts) {
             if (p.postId == comment.postId) {
                 comments.add(comment)
-            } else {
-                throw PostNotFoundException("Post ${comment.postId} does not exist")
+                p.ownerId
+                count ++
             }
         }
+        if (count == 0)  throw PostNotFoundException("Post ${comment.postId} does not exist")
     }
 
     private fun setUniquePostId(post: Post): Post {
@@ -69,7 +71,7 @@ class WallService() {
         return post
     }
 
-    fun getLastComment(commentId: Long): Comment {
+    fun getLastComment(): Comment {
         return comments.last()
     }
 }

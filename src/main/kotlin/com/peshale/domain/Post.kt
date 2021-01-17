@@ -19,7 +19,7 @@ data class Post (
     val replyOwnerId: Int,
     val replyPostId: Int,
     val friendsOnly: Boolean,
-    val comment: Comment?,
+    var comments: Comment?,
     val copyright: Copyright?,
     val likes: Likes,
     val reposts: Reposts?,
@@ -40,9 +40,9 @@ data class Post (
         /*
     fun for testing purpose
      */
-        fun createPostWithRandomData(attachment: Attachment, comment: Comment?): Post {
+        fun createPostWithRandomData(postId: Int, attachment: Attachment, comment: Comment?): Post {
             return Post(
-                postId = Utilities.randomPosInt(),
+                postId = postId,
                 ownerId = Utilities.randomPosInt(),
                 fromId = Utilities.randomPosInt(),
                 createdBy = Utilities.randomPosInt(),
@@ -51,7 +51,7 @@ data class Post (
                 replyOwnerId = Utilities.randomPosInt(),
                 replyPostId = Utilities.randomPosInt(),
                 friendsOnly = false,
-                comment = comment,
+                comments = comment,
                 copyright = Copyright(Utilities.randomPosInt(), true, "VK", "default"),
                 likes = Likes(Utilities.randomPosInt(), true, true, true),
                 reposts = Reposts(Utilities.randomPosInt(), false),
