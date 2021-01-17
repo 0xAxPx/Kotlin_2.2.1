@@ -1,5 +1,7 @@
 package com.peshale.wall
 
+import com.peshale.PostNotFoundException
+import com.peshale.domain.Comment
 import com.peshale.domain.Post
 import kotlin.random.Random
 
@@ -7,37 +9,38 @@ class WallService() {
 
     companion object {
         var ids = ArrayList<Int>()
-        var postsStore = ArrayList<Post>()
+        var posts = ArrayList<Post>()
+        val comments = ArrayList<Comment>()
 
         fun getNumberOfPosts(): Int {
-            return postsStore.size
+            return posts.size
         }
 
         fun getPost(id: Int): Post {
             var index = 0
-            for (i in postsStore.indices) if (postsStore[i].id == id) {
+            for (i in posts.indices) if (posts[i].postId == id) {
                 index = i
             }
-            return postsStore[index]
+            return posts[index]
         }
     }
 
     fun add(post: Post): Post {
         val newPost = setUniquePostId(post)
-        postsStore.add(newPost)
-        ids.add(newPost.id)
+        posts.add(newPost)
+        ids.add(newPost.postId)
         return newPost
     }
 
     fun update(post: Post): Boolean {
         var update = false
-        for (i in postsStore.indices) {
-            val currentId = post.id
+        for (i in posts.indices) {
+            val currentId = post.postId
             val currentDateCreated = post.date
-            if (postsStore[i].id == post.id) {
+            if (posts[i].postId == post.postId) {
                 update = true
-                val newPost = post.copy(id = currentId, date = currentDateCreated)
-                postsStore[i] = newPost
+                val newPost = post.copy(postId = currentId, date = currentDateCreated)
+                posts[i] = newPost
             } else {
                 update = false
             }
@@ -45,15 +48,30 @@ class WallService() {
         return update
     }
 
+    fun createComment(comment: Comment) {
+        var count = 0
+        for (p in posts) {
+            if (p.postId == comment.postId) {
+                comments.add(comment)
+                p.ownerId
+                count ++
+            }
+        }
+        if (count == 0)  throw PostNotFoundException("Post ${comment.postId} does not exist")
+    }
 
     private fun setUniquePostId(post: Post): Post {
         //check if id exists in array of id
-        val currentId = post.id
+        val currentId = post.postId
         for (i in ids.indices) {
             if (ids[i] == currentId) {
-                post.id = Random.nextInt()
+                post.postId = Random.nextInt()
             }
         }
         return post
+    }
+
+    fun getLastComment(): Comment {
+        return comments.last()
     }
 }
